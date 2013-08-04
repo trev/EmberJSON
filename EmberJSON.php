@@ -35,9 +35,9 @@ class EmberJSON {
     $relationStack = array();
     $stack = array();
     $final = array();
-    // Deals with a single record request of format: /garments/3
+    // Deals with a single record request of format: /posts/3
     $id = $this->request->allParams()['ID']; 
-    // Deals with an array of records request of format: /garments?ids[]=1&ids[]=2
+    // Deals with an array of records request of format: /posts?ids[]=1&ids[]=2
     $ids = $this->request->getVar('ids');
 
     if($ids) $results = $classname::get()->byIDs($ids);

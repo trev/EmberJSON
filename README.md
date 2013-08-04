@@ -4,13 +4,17 @@
 ### Method A.
 Pass the getJSON method an array of the properties you want outputed.
 
-    <?php
     class PostController extends Page_Controller {
 
       public function index($request) {
 
+        // Send the JSON headers
         $this->response->addHeader("Content-Type", "application/json");
+
+        // Initialize EmberJSON
         $json = new EmberJSON('Post', $request, array('has_many', 'many_many'));
+
+        // Get JSON
         return $json->getJSON(array(
           'id' => 'ID',
           'post' => 'post',
@@ -22,7 +26,6 @@ Pass the getJSON method an array of the properties you want outputed.
 
 The array passed to getJSON will end up looking like this:
 
-    <?php
     array(
       'id' => $row->ID,
       'post' => $row->post,
@@ -34,13 +37,17 @@ So essentially, the array key is what the property will be named in the JSON out
 ### Method B.
 You can also pass the getJSON method a function where you do the array preparations yourself.
 
-    <?php
     class PostController extends Page_Controller {
 
       public function index($request) {
 
+        // Send the JSON headers
         $this->response->addHeader("Content-Type", "application/json");
+
+        // Initialize EmberJSON
         $json = new EmberJSON('Post', $request, array('has_many', 'many_many'));
+
+        // Get JSON
         return $json->getJSON(function($row) {
           return array(
             'id' => $row->ID,
