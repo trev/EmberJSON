@@ -61,7 +61,7 @@ You can also pass the getJSON method a function where you do the array preparati
     }
 
 ## Author
-Yours truly: Trevor Wistaff
+![Ron Burgundy](http://static.tumblr.com/769bb9c07595aebdeb73214592a0fd63/u9mcnar/1SVmhkwfk/tumblr_static_anchorman4.jpg)
 
 ## License
 You can do whatever you want with it. It IS that simple.
