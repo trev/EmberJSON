@@ -1,4 +1,19 @@
 <?php
+/**
+ * Silverstripe JSON Request Decorator
+ *
+ * This class helps you convert your SilverStripe Data Objects into a
+ * JSON standard that Ember Data can interpret right out of the box
+ *
+ * Last tested with: Ember 1.10, Ember Data 1.0.0-beta.14.1 and
+ * SilverStripe: Framework 3.1.9, CMS 3.0.5
+ *
+ * @package     EmberJSON
+ * @author      Trevor Wistaff <trev@a07.com.au>
+ * @license     Scotch, scotch, scotch, I love scotch
+ * @version     1.0.0
+ * @link        https://github.com/trev/EmberJSON
+ */
 class EmberJSON {
 
   protected $classname = '';
@@ -25,22 +40,31 @@ class EmberJSON {
    * Get's a JSON representation of all the model data and it's requested relationships.
    *
    * @param array|function $output Associated array or function representing the JSON output format
+   * @param array $keys_to_exclude Exclude keys from delivered JSON payload
    *
    * @return string json
    */
-  public function getJSON($output) {
+  public function getJSON($output, $keys_to_exclude = array()) {
 
     $classname = $this->classname;
     $relationships = $this->relationships;
     $relationStack = array();
     $stack = array();
     $final = array();
+    $filter = array();
     // Deals with a single record request of format: /posts/3
     $id = $this->request->allParams()['ID']; 
     // Deals with an array of records request of format: /posts?ids[]=1&ids[]=2
     $ids = $this->request->getVar('ids');
+    // Deals with filtered requests
+    $gets = $this->request->getVars();
+    foreach($gets as $param => $value) {
+
+      if($param != 'url' && $param != 'ids') $filter[$param] = $value;
+    }
 
     if($ids) $results = $classname::get()->byIDs($ids);
+    elseif(count($filter)) $results = $classname::get()->filter($filter);
     elseif($id) $results = $classname::get()->byID($id);
     else $results = $classname::get();
 
@@ -57,9 +81,12 @@ class EmberJSON {
             // Loop through every relationship entry (i.e has_many)
             foreach($classname::${$relationship} as $object => $class) {
 
-              // Loop through each individul relationship relations (i.e $has_many => 'Images')
+              // Loop through each individual relationship relations (i.e $has_many => 'Images')
               foreach($row->$object() as $relation) {
-
+                
+                if($relationship === 'has_one') 
+                  $relationStack[$class] = $relation->ID;
+                else
                 $relationStack[$class][] = $relation->ID;
               }
             }
@@ -69,8 +96,12 @@ class EmberJSON {
         $final = (is_callable($output)) ? $output($row) : $this->prepareArray($row, $output);
 
         foreach($relationStack as $class => $ids) {
-          $class = $this->sanitizeString($class . '_ids');
+          $class = $this->sanitizeString($class . (is_array($ids) ? '_ids' : '_id'));
           $final[$class] = $ids;
+        }
+
+        foreach($keys_to_exclude as $key) {
+          unset($final[$key]);
         }
 
         // Reset relationStack for the next row
@@ -103,25 +134,30 @@ class EmberJSON {
   }
 
   /**
-   * Very simply pluralization.
+   * Very simple pluralization.
    * 
    * @return string pluralized class name
    */
   protected function getPluralClassName() {
 
-    return $this->sanitizeString($this->classname . 's');
+    $classname = $this->classname;
+
+    if(substr($this->classname, -1) === 'y')
+      $classname = substr($classname, 0, -1) . 'ie';
+
+    return lcfirst($classname . 's');
   }
 
   /**
    * Doesn't do anything at the moment. Just leaves the class name
-   * as is (minus sanitizing). It's here to that we can easily do more
+   * as is (minus sanitizing). It's here so that we can easily do more
    * advanced 'singularization' if needed.
    *
    * @return string singularized class name
    */ 
   protected function getSingularClassName() {
 
-    return $this->sanitizeString($this->classname);
+    return lcfirst($this->classname);
   }
 
   /**

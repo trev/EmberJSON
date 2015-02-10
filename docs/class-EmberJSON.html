@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class EmberJSON</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Packages</h3>
+			<ul>
+				<li>
+					<a href="package-EmberJSON.html">
+						EmberJSON					</a>
+
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-EmberJSON.html">EmberJSON</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+<span>Package</span>			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class EmberJSON</h1>
+
+
+	<div class="description">
+	<p>Silverstripe JSON Request Decorator</p>
+
+<p>This class helps you convert your SilverStripe Data Objects into a
+JSON standard that Ember Data can interpret right out of the box</p>
+
+<p>Last tested with: Ember 1.10, Ember Data 1.0.0-beta.14.1 and
+SilverStripe: Framework 3.1.9, CMS 3.0.5</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-EmberJSON.html">EmberJSON</a><br>
+
+				<b>License</b>
+				<a href=""></a><br>
+				<b>Author:</b>
+				Trevor Wistaff <a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;:&#116;&#114;&#101;&#x76;&#x40;&#x61;&#48;&#55;&#46;&#99;&#x6f;&#x6d;&#x2e;&#97;&#117;">&#116;&#114;&#101;&#x76;&#x40;&#x61;&#48;&#55;&#46;&#99;&#x6f;&#x6d;&#x2e;&#97;&#117;</a><br>
+				<b>Version:</b>
+				1.0.0<br>
+				<b>Link:</b>
+				<a href="https://github.com/trev/EmberJSON">https://github.com/trev/EmberJSON</a><br>
+			<b>Located at</b> <a href="source-class-EmberJSON.html#2-172" title="Go to source code">EmberJSON.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-EmberJSON.html#25-37" title="Go to source code">__construct</a>( <span>string <var>$classname</var></span>, <span>object <var>$request</var></span>, <span>array <var>$relationships</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			<p>Constructor</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Constructor</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$classname</var></dt>
+					<dd>The DataObject class name</dd>
+					<dt><var>$request</var></dt>
+					<dd>The HTTP_Request object</dd>
+					<dt><var>$relationships</var></dt>
+					<dd>The relationships you want included in the output</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getJSON" id="_getJSON">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getJSON">#</a>
+		<code><a href="source-class-EmberJSON.html#39-120" title="Go to source code">getJSON</a>( <span>array|function <var>$output</var></span>, <span>array <var>$keys_to_exclude</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			<p>Get's a JSON representation of all the model data and it's requested relationships.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Get's a JSON representation of all the model data and it's requested relationships.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$output</var></dt>
+					<dd>Associated array or function representing the JSON output format</dd>
+					<dt><var>$keys_to_exclude</var></dt>
+					<dd>Exclude keys from delivered JSON payload</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					string<br>json
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="prepareArray" id="_prepareArray">
+
+		<td class="attributes"><code>
+			 protected 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_prepareArray">#</a>
+		<code><a href="source-class-EmberJSON.html#122-134" title="Go to source code">prepareArray</a>( <span> <var>$row</var></span>, <span>array <var>$output</var></span> )</code>
+
+		<div class="description short">
+			<p>Prepares the array format to be json encoded.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Prepares the array format to be json encoded.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array<br>associative
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getPluralClassName" id="_getPluralClassName">
+
+		<td class="attributes"><code>
+			 protected 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getPluralClassName">#</a>
+		<code><a href="source-class-EmberJSON.html#136-149" title="Go to source code">getPluralClassName</a>( )</code>
+
+		<div class="description short">
+			<p>Very simple pluralization.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Very simple pluralization.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					string<br>pluralized class name
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getSingularClassName" id="_getSingularClassName">
+
+		<td class="attributes"><code>
+			 protected 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getSingularClassName">#</a>
+		<code><a href="source-class-EmberJSON.html#151-161" title="Go to source code">getSingularClassName</a>( )</code>
+
+		<div class="description short">
+			<p>Doesn't do anything at the moment. Just leaves the class name
+as is (minus sanitizing). It's here so that we can easily do more
+advanced 'singularization' if needed.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Doesn't do anything at the moment. Just leaves the class name
+as is (minus sanitizing). It's here so that we can easily do more
+advanced 'singularization' if needed.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					string<br>singularized class name
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="sanitizeString" id="_sanitizeString">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_sanitizeString">#</a>
+		<code><a href="source-class-EmberJSON.html#163-171" title="Go to source code">sanitizeString</a>( <span> <var>$str</var></span> )</code>
+
+		<div class="description short">
+			<p>Take a camel cased string and underscores</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Take a camel cased string and underscores</p>
+
+<p>return string underscored</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="classname" id="$classname">
+		<td class="attributes"><code>
+			protected  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-EmberJSON.html#19" title="Go to source code"><var>$classname</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$classname" class="anchor">#</a>
+				<code><span class="php-quote">''</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="relationships" id="$relationships">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-EmberJSON.html#21" title="Go to source code"><var>$relationships</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$relationships" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="request" id="$request">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-EmberJSON.html#23" title="Go to source code"><var>$request</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$request" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

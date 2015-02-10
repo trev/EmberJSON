@@ -4,6 +4,12 @@
 ### Method A.
 Pass the getJSON method an array of the properties you want outputed.
 
+    class Post extends DataObject {
+      public static $has_many = array(
+        'Comments' => 'Comment'
+      );
+    }
+
     class PostController extends Page_Controller {
 
       public function index($request) {
@@ -12,7 +18,7 @@ Pass the getJSON method an array of the properties you want outputed.
         $this->response->addHeader("Content-Type", "application/json");
 
         // Initialize EmberJSON
-        $json = new EmberJSON('Post', $request, array('has_many', 'many_many'));
+        $json = new EmberJSON('Post', $request, array('has_many'));
 
         // Get JSON
         return $json->getJSON(array(
@@ -29,10 +35,13 @@ The array passed to getJSON will end up looking like this:
     array(
       'id' => $row->ID,
       'post' => $row->post,
-      'publish_date' => $row->publishDate
+      'publish_date' => $row->publishDate,
+      'comment_ids' => // All associated comments
     ):
 
-So essentially, the array key is what the property will be named in the JSON output, while the array value is the DataObject's actual proprty name.
+In short, the array key is what the property will be named in the JSON output, while the array value is the DataObject's actual proprty name.
+Also note that the association key is automatically added because we told EmberJSON to include the `has_many` associations.
+
 
 ### Method B.
 You can also pass the getJSON method a function where you do the array preparations yourself.
@@ -45,7 +54,7 @@ You can also pass the getJSON method a function where you do the array preparati
         $this->response->addHeader("Content-Type", "application/json");
 
         // Initialize EmberJSON
-        $json = new EmberJSON('Post', $request, array('has_many', 'many_many'));
+        $json = new EmberJSON('Post', $request, array('has_many'));
 
         // Get JSON
         return $json->getJSON(function($row) {
@@ -54,11 +63,13 @@ You can also pass the getJSON method a function where you do the array preparati
             'post' => $row->post,
             'avatar' => $row->avatar()->Filename,
             'publish_date' => $row->publishDate
-          )}
+          )}, ['comment_ids']
         );
       }
 
     }
+
+Notice that in this example we also pass a key to exclude from the JSON payload: `comment_ids`. You could also not pass `array('has_many')` when creating a new EmberJSON instance and you'd get the same result but it would also not included ANY `has_many` relationships.
 
 ## Author
 ![Ron Burgundy](http://static.tumblr.com/769bb9c07595aebdeb73214592a0fd63/u9mcnar/1SVmhkwfk/tumblr_static_anchorman4.jpg)
