@@ -1,17 +1,21 @@
 <?php
 /**
- * Silverstripe JSON Request Decorator
+ * Silverstripe DataObject (+relationships) to Ember Data RESTAdapter
+ * JSON
  *
  * This class helps you convert your SilverStripe Data Objects into a
- * JSON standard that Ember Data can interpret right out of the box
+ * JSON standard that Ember Data can interpret right out of the box.
+ *
+ * This currently only deals with retrieving 1 or multiple records
+ * and its associations as an array of IDs.
  *
  * Last tested with: Ember 1.10, Ember Data 1.0.0-beta.14.1 and
  * SilverStripe: Framework 3.1.9, CMS 3.0.5
  *
  * @package     EmberJSON
  * @author      Trevor Wistaff <trev@a07.com.au>
- * @license     Scotch, scotch, scotch, I love scotch
- * @version     1.0.0
+ * @license     The MIT License (MIT)
+ * @version     1.1.0
  * @link        https://github.com/trev/EmberJSON
  */
 class EmberJSON {
@@ -96,7 +100,7 @@ class EmberJSON {
         $final = (is_callable($output)) ? $output($row) : $this->prepareArray($row, $output);
 
         foreach($relationStack as $class => $ids) {
-          $class = $this->sanitizeString($class . (is_array($ids) ? '_ids' : '_id'));
+          $class = lcfirst(is_array($ids) ? $this->pluralize($class) : $class);
           $final[$class] = $ids;
         }
 
@@ -112,7 +116,7 @@ class EmberJSON {
         if($id) $stack[lcfirst($this->classname)] = $final;
         // If we're requesting multiple records we return multiple items
         // in a nested array with the model name in its pluralized form as the json root
-        else $stack[$this->getPluralClassName()][] = $final;
+        else $stack[lcfirst($this->pluralize($this->classname))][] = $final;
       }
     }
 
@@ -136,25 +140,15 @@ class EmberJSON {
   /**
    * Very simple pluralization.
    * 
+   * @param string string to pluralize
+   *
    * @return string pluralized class name
    */
-  protected function getPluralClassName() {
+  protected function pluralize($str) {
 
-    $classname = $this->classname;
+    if(substr($str, -1) === 'y')
+      $str = substr($str, 0, -1) . 'ie';
 
-    if(substr($this->classname, -1) === 'y')
-      $classname = substr($classname, 0, -1) . 'ie';
-
-    return lcfirst($classname . 's');
-  }
-
-  /**
-   * Take a camel cased string and underscores
-   *
-   * return string underscored
-   */
-  protected function sanitizeString($str) {
-
-    return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $str));
+    return $str . 's';
   }
 }
