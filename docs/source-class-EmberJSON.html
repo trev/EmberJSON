@@ -84,7 +84,7 @@
 </span></span><span id="10" class="l"><a href="#10"> 10: </a><span class="php-comment"> *
 </span></span><span id="11" class="l"><a href="#11"> 11: </a><span class="php-comment"> * @package     EmberJSON
 </span></span><span id="12" class="l"><a href="#12"> 12: </a><span class="php-comment"> * @author      Trevor Wistaff &lt;trev@a07.com.au&gt;
-</span></span><span id="13" class="l"><a href="#13"> 13: </a><span class="php-comment"> * @license     
+</span></span><span id="13" class="l"><a href="#13"> 13: </a><span class="php-comment"> * @license     Scotch, scotch, scotch, I love scotch
 </span></span><span id="14" class="l"><a href="#14"> 14: </a><span class="php-comment"> * @version     1.0.0
 </span></span><span id="15" class="l"><a href="#15"> 15: </a><span class="php-comment"> * @link        https://github.com/trev/EmberJSON
 </span></span><span id="16" class="l"><a href="#16"> 16: </a><span class="php-comment"> */</span>
@@ -183,7 +183,7 @@
 </span><span id="109" class="l"><a href="#109">109: </a>
 </span><span id="110" class="l"><a href="#110">110: </a>        <span class="php-comment">// If we're requesting a single record we return a single item</span>
 </span><span id="111" class="l"><a href="#111">111: </a>        <span class="php-comment">// array with the model name in singular as the json root</span>
-</span><span id="112" class="l"><a href="#112">112: </a>        <span class="php-keyword1">if</span>(<span class="php-var">$id</span>) <span class="php-var">$stack</span>[<span class="php-var">$this</span>-&gt;getSingularClassName()] = <span class="php-var">$final</span>;
+</span><span id="112" class="l"><a href="#112">112: </a>        <span class="php-keyword1">if</span>(<span class="php-var">$id</span>) <span class="php-var">$stack</span>[<span class="php-keyword2">lcfirst</span>(<span class="php-var">$this</span>-&gt;classname)] = <span class="php-var">$final</span>;
 </span><span id="113" class="l"><a href="#113">113: </a>        <span class="php-comment">// If we're requesting multiple records we return multiple items</span>
 </span><span id="114" class="l"><a href="#114">114: </a>        <span class="php-comment">// in a nested array with the model name in its pluralized form as the json root</span>
 </span><span id="115" class="l"><a href="#115">115: </a>        <span class="php-keyword1">else</span> <span class="php-var">$stack</span>[<span class="php-var">$this</span>-&gt;getPluralClassName()][] = <span class="php-var">$final</span>;
@@ -223,28 +223,16 @@
 </span><span id="149" class="l"><a href="#149">149: </a>  }
 </span><span id="150" class="l"><a href="#150">150: </a>
 </span><span id="151" class="l"><a href="#151">151: </a>  <span class="php-comment">/**
-</span></span><span id="152" class="l"><a href="#152">152: </a><span class="php-comment">   * Doesn't do anything at the moment. Just leaves the class name
-</span></span><span id="153" class="l"><a href="#153">153: </a><span class="php-comment">   * as is (minus sanitizing). It's here so that we can easily do more
-</span></span><span id="154" class="l"><a href="#154">154: </a><span class="php-comment">   * advanced 'singularization' if needed.
-</span></span><span id="155" class="l"><a href="#155">155: </a><span class="php-comment">   *
-</span></span><span id="156" class="l"><a href="#156">156: </a><span class="php-comment">   * @return string singularized class name
-</span></span><span id="157" class="l"><a href="#157">157: </a><span class="php-comment">   */</span> 
-</span><span id="158" class="l"><a href="#158">158: </a>  <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> getSingularClassName() {
-</span><span id="159" class="l"><a href="#159">159: </a>
-</span><span id="160" class="l"><a href="#160">160: </a>    <span class="php-keyword1">return</span> <span class="php-keyword2">lcfirst</span>(<span class="php-var">$this</span>-&gt;classname);
-</span><span id="161" class="l"><a href="#161">161: </a>  }
-</span><span id="162" class="l"><a href="#162">162: </a>
-</span><span id="163" class="l"><a href="#163">163: </a>  <span class="php-comment">/**
-</span></span><span id="164" class="l"><a href="#164">164: </a><span class="php-comment">   * Take a camel cased string and underscores
-</span></span><span id="165" class="l"><a href="#165">165: </a><span class="php-comment">   *
-</span></span><span id="166" class="l"><a href="#166">166: </a><span class="php-comment">   * return string underscored
-</span></span><span id="167" class="l"><a href="#167">167: </a><span class="php-comment">   */</span>
-</span><span id="168" class="l"><a href="#168">168: </a>  <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> sanitizeString(<span class="php-var">$str</span>) {
-</span><span id="169" class="l"><a href="#169">169: </a>
-</span><span id="170" class="l"><a href="#170">170: </a>    <span class="php-keyword1">return</span> <span class="php-keyword2">strtolower</span>(<span class="php-keyword2">preg_replace</span>(<span class="php-quote">'/([a-z])([A-Z])/'</span>, <span class="php-quote">'$1_$2'</span>, <span class="php-var">$str</span>));
-</span><span id="171" class="l"><a href="#171">171: </a>  }
-</span><span id="172" class="l"><a href="#172">172: </a>}
-</span><span id="173" class="l"><a href="#173">173: </a></span></code></pre>
+</span></span><span id="152" class="l"><a href="#152">152: </a><span class="php-comment">   * Take a camel cased string and underscores
+</span></span><span id="153" class="l"><a href="#153">153: </a><span class="php-comment">   *
+</span></span><span id="154" class="l"><a href="#154">154: </a><span class="php-comment">   * return string underscored
+</span></span><span id="155" class="l"><a href="#155">155: </a><span class="php-comment">   */</span>
+</span><span id="156" class="l"><a href="#156">156: </a>  <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> sanitizeString(<span class="php-var">$str</span>) {
+</span><span id="157" class="l"><a href="#157">157: </a>
+</span><span id="158" class="l"><a href="#158">158: </a>    <span class="php-keyword1">return</span> <span class="php-keyword2">strtolower</span>(<span class="php-keyword2">preg_replace</span>(<span class="php-quote">'/([a-z])([A-Z])/'</span>, <span class="php-quote">'$1_$2'</span>, <span class="php-var">$str</span>));
+</span><span id="159" class="l"><a href="#159">159: </a>  }
+</span><span id="160" class="l"><a href="#160">160: </a>}
+</span><span id="161" class="l"><a href="#161">161: </a></span></code></pre>
 
 	<div id="footer">
 		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
