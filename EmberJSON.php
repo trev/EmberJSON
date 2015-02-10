@@ -109,7 +109,7 @@ class EmberJSON {
 
         // If we're requesting a single record we return a single item
         // array with the model name in singular as the json root
-        if($id) $stack[$this->getSingularClassName()] = $final;
+        if($id) $stack[lcfirst($this->classname)] = $final;
         // If we're requesting multiple records we return multiple items
         // in a nested array with the model name in its pluralized form as the json root
         else $stack[$this->getPluralClassName()][] = $final;
@@ -146,18 +146,6 @@ class EmberJSON {
       $classname = substr($classname, 0, -1) . 'ie';
 
     return lcfirst($classname . 's');
-  }
-
-  /**
-   * Doesn't do anything at the moment. Just leaves the class name
-   * as is (minus sanitizing). It's here so that we can easily do more
-   * advanced 'singularization' if needed.
-   *
-   * @return string singularized class name
-   */ 
-  protected function getSingularClassName() {
-
-    return lcfirst($this->classname);
   }
 
   /**
