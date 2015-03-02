@@ -10,12 +10,12 @@
  * and its associations as an array of IDs.
  *
  * Last tested with: Ember 1.10, Ember Data 1.0.0-beta.14.1 and
- * SilverStripe: Framework 3.1.9, CMS 3.0.5
+ * SilverStripe: Framework 3.1.9, CMS 3.1.9
  *
  * @package     EmberJSON
  * @author      Trevor Wistaff <trev@a07.com.au>
  * @license     The MIT License (MIT)
- * @version     1.1.0
+ * @version     1.2.0
  * @link        https://github.com/trev/EmberJSON
  */
 class EmberJSON {
@@ -45,14 +45,16 @@ class EmberJSON {
    *
    * @param array|function $output Associated array or function representing the JSON output format
    * @param array $keys_to_exclude Exclude keys from delivered JSON payload
+   * @param string $root Allows you to override the json root value
    *
    * @return string json
    */
-  public function getJSON($output, $keys_to_exclude = array()) {
+  public function getJSON($output, $keys_to_exclude = array(), string $root = null) {
 
     $classname = $this->classname;
     $relationships = $this->relationships;
     $relationStack = array();
+    $root = lcfirst( is_null($root) ? $classname : $root );
     $stack = array();
     $final = array();
     $filter = array();
@@ -62,6 +64,7 @@ class EmberJSON {
     $ids = $this->request->getVar('ids');
     // Deals with filtered requests
     $gets = $this->request->getVars();
+
     foreach($gets as $param => $value) {
 
       if($param != 'url' && $param != 'ids') $filter[$param] = $value;
@@ -80,10 +83,10 @@ class EmberJSON {
         foreach($relationships as $relationship) {
 
           // Check to see if relationship actually exists before looping through it
-          if($classname::${$relationship}) {
+          if(Config::inst()->get($classname, $relationship)) {
 
             // Loop through every relationship entry (i.e has_many)
-            foreach($classname::${$relationship} as $object => $class) {
+            foreach(Config::inst()->get($classname, $relationship) as $object => $class) {
 
               // Loop through each individual relationship relations (i.e $has_many => 'Images')
               foreach($row->$object() as $relation) {
@@ -113,10 +116,10 @@ class EmberJSON {
 
         // If we're requesting a single record we return a single item
         // array with the model name in singular as the json root
-        if($id) $stack[lcfirst($this->classname)] = $final;
+        if($id) $stack[$root] = $final;
         // If we're requesting multiple records we return multiple items
         // in a nested array with the model name in its pluralized form as the json root
-        else $stack[lcfirst($this->pluralize($this->classname))][] = $final;
+        else $stack[$this->pluralize($root)][] = $final;
       }
     }
 
@@ -142,7 +145,7 @@ class EmberJSON {
    * 
    * @param string string to pluralize
    *
-   * @return string pluralized class name
+   * @return string pluralized string
    */
   protected function pluralize($str) {
 
